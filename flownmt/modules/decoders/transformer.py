@@ -39,12 +39,12 @@ class TransformerDecoder(Decoder):
 
         return self.readout(ctx)
 
-    @overrides
+    #@overrides
     def init(self, z, mask, src, src_mask, init_scale=1.0):
         with torch.no_grad():
             return self(z, mask, src, src_mask)
 
-    @overrides
+    #@overrides
     def decode(self, z: torch.Tensor, mask: torch.Tensor, src: torch.Tensor, src_mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         """
 
@@ -72,7 +72,7 @@ class TransformerDecoder(Decoder):
         log_probs = log_probs.mul(mask).sum(dim=1)
         return dec, log_probs
 
-    @overrides
+    #@overrides
     def loss(self, z: torch.Tensor, target: torch.Tensor, mask: torch.Tensor,
              src: torch.Tensor, src_mask: torch.Tensor) -> torch.Tensor:
         """

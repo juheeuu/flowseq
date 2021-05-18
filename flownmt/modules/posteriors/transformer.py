@@ -31,7 +31,7 @@ class TransformerCore(nn.Module):
     def reset_parameters(self):
         pass
 
-    @overrides
+    #@overrides
     def forward(self, tgt_sents, tgt_masks, src_enc, src_masks):
         x = self.embed_scale * self.tgt_embed(tgt_sents)
         x = F.dropout2d(x, p=self.dropword, training=self.training)
@@ -83,11 +83,11 @@ class TransformerPosterior(Posterior):
         else:
             return self.core.tgt_embed.weight
 
-    @overrides
+    #@overrides
     def forward(self, tgt_sents, tgt_masks, src_enc, src_masks):
         return self.core(tgt_sents, tgt_masks, src_enc, src_masks)
 
-    @overrides
+    #@overrides
     def sample(self, tgt_sents: torch.Tensor, tgt_masks: torch.Tensor,
                src_enc: torch.Tensor, src_masks: torch.Tensor,
                nsamples: int =1, random=True) -> Tuple[torch.Tensor, torch.Tensor]:
@@ -96,7 +96,7 @@ class TransformerPosterior(Posterior):
         log_probs = Posterior.log_probability(z, eps, mu, logvar, tgt_masks)
         return z, log_probs
 
-    @overrides
+    #@overrides
     def init(self, tgt_sents, tgt_masks, src_enc, src_masks, init_scale=1.0, init_mu=True, init_var=True) -> Tuple[torch.Tensor, torch.Tensor]:
         mu, logvar = self.core.init(tgt_sents, tgt_masks, src_enc, src_masks,
                                     init_scale=init_scale, init_mu=init_mu, init_var=init_var)

@@ -21,7 +21,7 @@ class Encoder(nn.Module):
             with torch.no_grad():
                 self.embed.weight[self.embed.padding_idx].fill_(0)
 
-    @overrides
+    #@overrides
     def forward(self, src_sents, masks=None) -> Tuple[torch.Tensor, torch.Tensor]:
         """
         Encoding src sentences into src encoding representations.

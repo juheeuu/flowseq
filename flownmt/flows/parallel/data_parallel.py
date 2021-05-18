@@ -35,7 +35,7 @@ class DataParallelFlow(Flow):
         if len(self.device_ids) == 1:
             self.flow.cuda(device_ids[0])
 
-    @overrides
+    #@overrides
     def forward(self, *inputs, **kwargs) -> Tuple[torch.Tensor, torch.Tensor]:
         if not self.device_ids:
             return self.flow.forward(*inputs, **kwargs)
@@ -46,7 +46,7 @@ class DataParallelFlow(Flow):
         outputs = self.parallel_apply(replicas, inputs, kwargs)
         return self.gather(outputs, self.output_device)
 
-    @overrides
+    #@overrides
     def backward(self, *inputs, **kwargs) -> Tuple[torch.Tensor, torch.Tensor]:
         if not self.device_ids:
             return self.flow.backward(*inputs, **kwargs)
@@ -57,7 +57,7 @@ class DataParallelFlow(Flow):
         outputs = self.parallel_apply(replicas, inputs, kwargs, backward=True)
         return self.gather(outputs, self.output_device)
 
-    @overrides
+    #@overrides
     def init(self, *input, **kwargs) -> Tuple[torch.Tensor, torch.Tensor]:
         return self.flow.init(*input, **kwargs)
 

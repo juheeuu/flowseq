@@ -20,7 +20,7 @@ class ActNormFlow(Flow):
         nn.init.normal_(self.log_scale, mean=0, std=0.05)
         nn.init.constant_(self.bias, 0.)
 
-    @overrides
+    #@overrides
     def forward(self, input: torch.Tensor, mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         """
 
@@ -44,7 +44,7 @@ class ActNormFlow(Flow):
             logdet = logdet * num
         return out, logdet
 
-    @overrides
+    #@overrides
     def backward(self, input: torch.Tensor, mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         """
 
@@ -68,7 +68,7 @@ class ActNormFlow(Flow):
             logdet = logdet * num
         return out, logdet
 
-    @overrides
+    #@overrides
     def init(self, data: torch.Tensor, mask: torch.Tensor, init_scale=1.0) -> Tuple[torch.Tensor, torch.Tensor]:
         """
 
@@ -95,7 +95,7 @@ class ActNormFlow(Flow):
             self.bias.add_(-mean).mul_(inv_stdv)
             return self.forward(data, mask)
 
-    @overrides
+    #@overrides
     def extra_repr(self):
         return 'inverse={}, in_features={}'.format(self.inverse, self.in_features)
 

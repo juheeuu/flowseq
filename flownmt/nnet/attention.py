@@ -48,7 +48,7 @@ class GlobalAttention(nn.Module):
         nn.init.xavier_uniform_(self.fc.weight)
         nn.init.constant_(self.fc.bias, 0)
 
-    @overrides
+    #@overrides
     def forward(self, query, key, key_mask=None):
         """
 

@@ -94,7 +94,7 @@ class NICE(Flow):
         params = self.net.init(z, mask, src, src_mask, init_scale=init_scale)
         return params
 
-    @overrides
+    #@overrides
     def forward(self, input: torch.Tensor, mask: torch.Tensor, src: torch.Tensor, src_mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         """
         Args:
@@ -122,7 +122,7 @@ class NICE(Flow):
         z1, z2 = (z, zp) if self.up else (zp, z)
         return self.unsplit(z1, z2), logdet
 
-    @overrides
+    #@overrides
     def backward(self, input: torch.Tensor, mask: torch.Tensor, src: torch.Tensor, src_mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         """
         Args:
@@ -150,7 +150,7 @@ class NICE(Flow):
         z1, z2 = (z, zp) if self.up else (zp, z)
         return self.unsplit(z1, z2), logdet
 
-    @overrides
+    #@overrides
     def init(self, data: torch.Tensor, mask: torch.Tensor, src: torch.Tensor, src_mask: torch.Tensor, init_scale=1.0) -> Tuple[torch.Tensor, torch.Tensor]:
         # [batch, length, in_channels]
         (z1, z2), mask = self.split(data, mask)
@@ -163,7 +163,7 @@ class NICE(Flow):
         z1, z2 = (z, zp) if self.up else (zp, z)
         return self.unsplit(z1, z2), logdet
 
-    @overrides
+    #@overrides
     def extra_repr(self):
         return 'inverse={}, in_channels={}, scale={}'.format(self.inverse, self.in_channels, self.scale)
 

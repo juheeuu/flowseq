@@ -21,18 +21,18 @@ class SimpleDecoder(Decoder):
         self.ctx_proj = nn.Sequential(nn.Linear(ctx_features, latent_dim), nn.ELU())
         self.dropout = dropout
 
-    @overrides
+    #@overrides
     def forward(self, z, src, src_mask):
         ctx = self.attn(z, src, key_mask=src_mask.eq(0))
         ctx = F.dropout(self.ctx_proj(torch.cat([ctx, z], dim=2)), p=self.dropout, training=self.training)
         return self.readout(ctx)
 
-    @overrides
+    #@overrides
     def init(self, z, mask, src, src_mask, init_scale=1.0):
         with torch.no_grad():
             self(z, src, src_mask)
 
-    @overrides
+    #@overrides
     def decode(self, z: torch.Tensor, mask: torch.Tensor, src: torch.Tensor, src_mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         """
 
@@ -60,7 +60,7 @@ class SimpleDecoder(Decoder):
         log_probs = log_probs.mul(mask).sum(dim=1)
         return dec, log_probs
 
-    @overrides
+    #@overrides
     def loss(self, z: torch.Tensor, target: torch.Tensor, mask: torch.Tensor,
              src: torch.Tensor, src_mask: torch.Tensor) -> torch.Tensor:
         """

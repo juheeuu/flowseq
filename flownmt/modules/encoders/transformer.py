@@ -27,7 +27,7 @@ class TransformerCore(nn.Module):
     def reset_parameters(self):
         pass
 
-    @overrides
+    #@overrides
     def forward(self, src_sents, masks) -> Tuple[torch.Tensor, torch.Tensor]:
         # [batch, leagth, embed_dim]
         x = self.embed_scale * self.embed(src_sents)
@@ -60,7 +60,7 @@ class TransformerEncoder(Encoder):
         super(TransformerEncoder, self).__init__(vocab_size, embed_dim, padding_idx)
         self.core = TransformerCore(self.embed, num_layers, latent_dim, hidden_size, heads, dropout=dropout, max_length=max_length)
 
-    @overrides
+    #@overrides
     def forward(self, src_sents, masks=None) -> Tuple[torch.Tensor, torch.Tensor]:
         src_enc, ctx = self.core(src_sents, masks=masks)
         return src_enc, ctx

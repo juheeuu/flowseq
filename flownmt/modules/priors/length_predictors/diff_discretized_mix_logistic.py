@@ -40,7 +40,7 @@ class DiffDiscreteMixLogisticLengthPredictor(LengthPredictor):
         log_scale = coeffs[:, self.nmix * 2:]
         return mu, log_scale, logit_probs
 
-    @overrides
+    #@overrides
     def loss(self, ctx: torch.Tensor, src_mask: torch.Tensor, tgt_mask: torch.Tensor) -> torch.Tensor:
         """
         Args:
@@ -63,7 +63,7 @@ class DiffDiscreteMixLogisticLengthPredictor(LengthPredictor):
         loss = discretized_mix_logistic_loss(x, mu, log_scale, logit_probs, bin_size, lower, upper)
         return loss
 
-    @overrides
+    #@overrides
     def predict(self, ctx: torch.Tensor, src_mask:torch.Tensor, topk: int = 1) -> Tuple[torch.Tensor, torch.LongTensor]:
         """
         Args:

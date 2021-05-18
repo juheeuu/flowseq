@@ -41,7 +41,7 @@ class DiffSoftMaxLengthPredictor(LengthPredictor):
         ctx = F.dropout(self.ctx_proj(ctx), p=self.dropout, training=self.training)
         return self.diff(ctx)
 
-    @overrides
+    #@overrides
     def loss(self, ctx: torch.Tensor, src_mask: torch.Tensor, tgt_mask: torch.Tensor) -> torch.Tensor:
         """
         Args:
@@ -80,7 +80,7 @@ class DiffSoftMaxLengthPredictor(LengthPredictor):
         loss_length = self.criterion(logits, x)
         return loss_length
 
-    @overrides
+    #@overrides
     def predict(self, ctx: torch.Tensor, src_mask:torch.Tensor, topk: int = 1) -> Tuple[torch.LongTensor, torch.Tensor]:
         """
         Args:

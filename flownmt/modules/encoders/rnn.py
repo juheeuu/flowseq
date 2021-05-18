@@ -30,7 +30,7 @@ class RecurrentCore(nn.Module):
     def reset_parameters(self):
         nn.init.constant_(self.enc_proj[0].bias, 0.)
 
-    @overrides
+    #@overrides
     def forward(self, src_sents, masks) -> Tuple[torch.Tensor, torch.Tensor]:
         word_embed = F.dropout(self.embed(src_sents), p=0.2, training=self.training)
 
@@ -59,7 +59,7 @@ class RecurrentEncoder(Encoder):
         super(RecurrentEncoder, self).__init__(vocab_size, embed_dim, padding_idx)
         self.core = RecurrentCore(self.embed, rnn_mode, num_layers, latent_dim, hidden_size, dropout=dropout)
 
-    @overrides
+    #@overrides
     def forward(self, src_sents, masks=None) -> Tuple[torch.Tensor, torch.Tensor]:
         src_enc, ctx = self.core(src_sents, masks=masks)
         return src_enc, ctx

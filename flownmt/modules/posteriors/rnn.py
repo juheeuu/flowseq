@@ -36,7 +36,7 @@ class RecurrentCore(nn.Module):
         self.mu = LinearWeightNorm(hidden_size, latent_dim, bias=True)
         self.logvar = LinearWeightNorm(hidden_size, latent_dim, bias=True)
 
-    @overrides
+    #@overrides
     def forward(self, tgt_sents, tgt_masks, src_enc, src_masks):
         tgt_embed = self.tgt_embed(tgt_sents)
         if self.dropout2d is not None:
@@ -93,11 +93,11 @@ class RecurrentPosterior(Posterior):
         else:
             return self.core.tgt_embed.weight
 
-    @overrides
+    #@overrides
     def forward(self, tgt_sents, tgt_masks, src_enc, src_masks):
         return self.core(tgt_sents, tgt_masks, src_enc, src_masks)
 
-    @overrides
+    #@overrides
     def sample(self, tgt_sents: torch.Tensor, tgt_masks: torch.Tensor,
                src_enc: torch.Tensor, src_masks: torch.Tensor,
                nsamples: int =1, random=True) -> Tuple[torch.Tensor, torch.Tensor]:
@@ -106,7 +106,7 @@ class RecurrentPosterior(Posterior):
         log_probs = Posterior.log_probability(z, eps, mu, logvar, tgt_masks)
         return z, log_probs
 
-    @overrides
+    #@overrides
     def init(self, tgt_sents, tgt_masks, src_enc, src_masks, init_scale=1.0, init_mu=True, init_var=True) -> Tuple[torch.Tensor, torch.Tensor]:
         mu, logvar = self.core.init(tgt_sents, tgt_masks, src_enc, src_masks,
                                     init_scale=init_scale, init_mu=init_mu, init_var=init_var)

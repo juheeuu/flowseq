@@ -23,7 +23,7 @@ class InvertibleLinearFlow(Flow):
     def sync(self):
         self.weight_inv.copy_(self.weight.data.inverse())
 
-    @overrides
+    #@overrides
     def forward(self, input: torch.Tensor, mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         """
 
@@ -47,7 +47,7 @@ class InvertibleLinearFlow(Flow):
             logdet = logdet * num
         return out, logdet
 
-    @overrides
+    #@overrides
     def backward(self, input: torch.Tensor, mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         """
 
@@ -71,12 +71,12 @@ class InvertibleLinearFlow(Flow):
             logdet = logdet * num
         return out, logdet
 
-    @overrides
+    #@overrides
     def init(self, data: torch.Tensor, mask: torch.Tensor, init_scale=1.0) -> Tuple[torch.Tensor, torch.Tensor]:
         with torch.no_grad():
             return self.forward(data)
 
-    @overrides
+    #@overrides
     def extra_repr(self):
         return 'inverse={}, in_features={}'.format(self.inverse, self.in_features)
 
@@ -115,7 +115,7 @@ class InvertibleMultiHeadFlow(Flow):
     def sync(self):
         self.weight_inv.copy_(self.weight.data.inverse())
 
-    @overrides
+    #@overrides
     def forward(self, input: torch.Tensor, mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         """
 
@@ -149,7 +149,7 @@ class InvertibleMultiHeadFlow(Flow):
             logdet = logdet * num
         return out, logdet
 
-    @overrides
+    #@overrides
     def backward(self, input: torch.Tensor, mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         """
 
@@ -183,12 +183,12 @@ class InvertibleMultiHeadFlow(Flow):
             logdet = logdet * num
         return out, logdet
 
-    @overrides
+    #@overrides
     def init(self, data: torch.Tensor, mask: torch.Tensor, init_scale=1.0) -> Tuple[torch.Tensor, torch.Tensor]:
         with torch.no_grad():
             return self.forward(data, mask)
 
-    @overrides
+    #@overrides
     def extra_repr(self):
         return 'inverse={}, in_features={}, heads={}, type={}'.format(self.inverse, self.in_features, self.heads, self.type)
 

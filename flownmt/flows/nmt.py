@@ -28,7 +28,7 @@ class NMTFlowPOSAttnUnit(Flow):
                                   transform=transform, type='self_attn', heads=heads,
                                   dropout=dropout, pos_enc='add', max_length=max_length)
 
-    @overrides
+    #@overrides
     def forward(self, input: torch.Tensor, tgt_mask: torch.Tensor,
                 src: torch.Tensor, src_mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         out, logdet_accum = self.actnorm.forward(input, tgt_mask)
@@ -41,7 +41,7 @@ class NMTFlowPOSAttnUnit(Flow):
 
         return out, logdet_accum
 
-    @overrides
+    #@overrides
     def backward(self, input: torch.Tensor, tgt_mask: torch.Tensor,
                  src: torch.Tensor, src_mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         # block1 dim=2, type=continuous
@@ -55,7 +55,7 @@ class NMTFlowPOSAttnUnit(Flow):
 
         return out, logdet_accum
 
-    @overrides
+    #@overrides
     def init(self, data: torch.Tensor, tgt_mask: torch.Tensor,
              src: torch.Tensor, src_mask: torch.Tensor, init_scale=1.0) -> Tuple[torch.Tensor, torch.Tensor]:
         out, logdet_accum = self.actnorm.init(data, tgt_mask, init_scale=init_scale)
@@ -119,7 +119,7 @@ class NMTFlowUnit(Flow):
             self.coupling3_up = None
             self.coupling3_down = None
 
-    @overrides
+    #@overrides
     def forward(self, input: torch.Tensor, tgt_mask: torch.Tensor,
                 src: torch.Tensor, src_mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         # block1 dim=2, type=continuous
@@ -159,7 +159,7 @@ class NMTFlowUnit(Flow):
 
         return out, logdet_accum
 
-    @overrides
+    #@overrides
     def backward(self, input: torch.Tensor, tgt_mask: torch.Tensor,
                  src: torch.Tensor, src_mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         if self.split_timestep:
@@ -200,7 +200,7 @@ class NMTFlowUnit(Flow):
         logdet_accum = logdet_accum + logdet
         return out, logdet_accum
 
-    @overrides
+    #@overrides
     def init(self, data: torch.Tensor, tgt_mask: torch.Tensor,
              src: torch.Tensor, src_mask: torch.Tensor, init_scale=1.0) -> Tuple[torch.Tensor, torch.Tensor]:
         # block1 dim=2, type=continuous
@@ -265,7 +265,7 @@ class NMTFlowStep(Flow):
         self.linear1.sync()
         self.linear2.sync()
 
-    @overrides
+    #@overrides
     def forward(self, input: torch.Tensor, tgt_mask: torch.Tensor,
                 src: torch.Tensor, src_mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         out, logdet_accum = self.actnorm1.forward(input, tgt_mask)
@@ -286,7 +286,7 @@ class NMTFlowStep(Flow):
         logdet_accum = logdet_accum + logdet
         return out, logdet_accum
 
-    @overrides
+    #@overrides
     def backward(self, input: torch.Tensor, tgt_mask: torch.Tensor,
                  src: torch.Tensor, src_mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         out, logdet_accum = self.unit2.backward(input, tgt_mask, src, src_mask)
@@ -307,7 +307,7 @@ class NMTFlowStep(Flow):
         logdet_accum = logdet_accum + logdet
         return out, logdet_accum
 
-    @overrides
+    #@overrides
     def init(self, data: torch.Tensor, tgt_mask: torch.Tensor,
              src: torch.Tensor, src_mask: torch.Tensor, init_scale=1.0) -> Tuple[torch.Tensor, torch.Tensor]:
         out, logdet_accum = self.actnorm1.init(data, tgt_mask, init_scale=init_scale)
@@ -366,7 +366,7 @@ class NMTFlowBlock(Flow):
         for step in self.steps:
             step.sync()
 
-    @overrides
+    #@overrides
     def forward(self, input: torch.Tensor, tgt_mask: torch.Tensor,
                 src: torch.Tensor, src_mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         # [batch]
@@ -386,7 +386,7 @@ class NMTFlowBlock(Flow):
 
         return out, logdet_accum
 
-    @overrides
+    #@overrides
     def backward(self, input: torch.Tensor, tgt_mask: torch.Tensor,
                  src: torch.Tensor, src_mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         if self.prior is None:
@@ -405,7 +405,7 @@ class NMTFlowBlock(Flow):
 
         return out, logdet_accum
 
-    @overrides
+    #@overrides
     def init(self, data: torch.Tensor, tgt_mask: torch.Tensor,
              src: torch.Tensor, src_mask: torch.Tensor, init_scale=1.0) -> Tuple[torch.Tensor, torch.Tensor]:
         # [batch]
@@ -461,7 +461,7 @@ class NMTFlow(Flow):
         for block in self.blocks:
             block.sync()
 
-    @overrides
+    #@overrides
     def forward(self, input: torch.Tensor, tgt_mask: torch.Tensor,
                 src: torch.Tensor, src_mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         logdet_accum = input.new_zeros(input.size(0))
@@ -482,7 +482,7 @@ class NMTFlow(Flow):
         assert len(outputs) == 0
         return out, logdet_accum
 
-    @overrides
+    #@overrides
     def backward(self, input: torch.Tensor, tgt_mask: torch.Tensor,
                  src: torch.Tensor, src_mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         outputs = []
@@ -508,7 +508,7 @@ class NMTFlow(Flow):
 
         return out, logdet_accum
 
-    @overrides
+    #@overrides
     def init(self, data: torch.Tensor, tgt_mask: torch.Tensor,
              src: torch.Tensor, src_mask: torch.Tensor, init_scale=1.0) -> Tuple[torch.Tensor, torch.Tensor]:
         logdet_accum = data.new_zeros(data.size(0))

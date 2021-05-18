@@ -16,7 +16,7 @@ class Transform():
 
 class Additive(Transform):
     @staticmethod
-    @overrides
+    #@overrides
     def fwd(z: torch.Tensor, mask: torch.Tensor, params) -> Tuple[torch.Tensor, torch.Tensor]:
         mu = params
         z = (z + mu).mul(mask.unsqueeze(2))
@@ -24,7 +24,7 @@ class Additive(Transform):
         return z, logdet
 
     @staticmethod
-    @overrides
+    #@overrides
     def bwd(z: torch.Tensor, mask: torch.Tensor, params) -> Tuple[torch.Tensor, torch.Tensor]:
         mu = params
         z = (z - mu).mul(mask.unsqueeze(2))
@@ -34,7 +34,7 @@ class Additive(Transform):
 
 class Affine(Transform):
     @staticmethod
-    @overrides
+    #@overrides
     def fwd(z: torch.Tensor, mask: torch.Tensor, params) -> Tuple[torch.Tensor, torch.Tensor]:
         mu, log_scale = params.chunk(2, dim=2)
         scale = log_scale.add_(2.0).sigmoid_()
@@ -43,7 +43,7 @@ class Affine(Transform):
         return z, logdet
 
     @staticmethod
-    @overrides
+    #@overrides
     def bwd(z: torch.Tensor, mask: torch.Tensor, params) -> Tuple[torch.Tensor, torch.Tensor]:
         mu, log_scale = params.chunk(2, dim=2)
         scale = log_scale.add_(2.0).sigmoid_()
@@ -83,7 +83,7 @@ class NLSQ(Transform):
         return a, b, c, d, g
 
     @staticmethod
-    @overrides
+    #@overrides
     def fwd(z: torch.Tensor, mask: torch.Tensor, params) -> Tuple[torch.Tensor, torch.Tensor]:
         a, b, c, d, g = NLSQ.get_pseudo_params(params)
 
@@ -96,7 +96,7 @@ class NLSQ(Transform):
         return z, logdet
 
     @staticmethod
-    @overrides
+    #@overrides
     def bwd(z: torch.Tensor, mask: torch.Tensor, params) -> Tuple[torch.Tensor, torch.Tensor]:
         a, b, c, d, g = NLSQ.get_pseudo_params(params)
 
