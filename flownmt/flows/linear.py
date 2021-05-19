@@ -41,7 +41,7 @@ class InvertibleLinearFlow(Flow):
         dim = input.dim()
         # [batch, N1, N2, ..., in_features]
         out = F.linear(input, self.weight)
-        _, logdet = torch.slogdet(self.weight)
+        _, logdet = torch.linalg.slogdet(self.weight)
         if dim > 2:
             num = mask.view(out.size(0), -1).sum(dim=1)
             logdet = logdet * num
@@ -65,7 +65,7 @@ class InvertibleLinearFlow(Flow):
         dim = input.dim()
         # [batch, N1, N2, ..., in_features]
         out = F.linear(input, self.weight_inv)
-        _, logdet = torch.slogdet(self.weight_inv)
+        _, logdet = torch.linalg.slogdet(self.weight_inv)
         if dim > 2:
             num = mask.view(out.size(0), -1).sum(dim=1)
             logdet = logdet * num
@@ -143,7 +143,7 @@ class InvertibleMultiHeadFlow(Flow):
             out = out.transpose(-2, -1).contiguous()
         out = out.view(*size)
 
-        _, logdet = torch.slogdet(self.weight)
+        _, logdet = torch.linalg.slogdet(self.weight)
         if dim > 2:
             num = mask.view(size[0], -1).sum(dim=1) * self.heads
             logdet = logdet * num
@@ -177,7 +177,7 @@ class InvertibleMultiHeadFlow(Flow):
             out = out.transpose(-2, -1).contiguous()
         out = out.view(*size)
 
-        _, logdet = torch.slogdet(self.weight_inv)
+        _, logdet = torch.linalg.slogdet(self.weight_inv)
         if dim > 2:
             num = mask.view(size[0], -1).sum(dim=1) * self.heads
             logdet = logdet * num
